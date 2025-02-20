@@ -10,6 +10,10 @@ Copyright (c) 2023-2024 Wenyu Ouyang. All rights reserved.
 
 import numpy as np
 import pytest
+import sys
+import os
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(project_root)
 
 from hydromodel.models.gr4j import gr4j
 
