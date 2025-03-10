@@ -1,10 +1,10 @@
 '''
 Author: zhuanglaihong
-Date: 2025-02-20 10:12:57
-LastEditTime: 2025-02-21 10:28:58
+Date: 2025-03-01 00:13:15
+LastEditTime: 2025-03-10 16:11:37
 LastEditors: zhuanglaihong
 Description: 
-FilePath: /zlh/hydromodel/scripts/calibrate_gr4j.py
+FilePath: /zlh/hydromodel/scripts/calibrate_gr2m.py
 Copyright: Copyright (c) 2021-2024 zhuanglaihong. All rights reserved.
 '''
 
@@ -24,7 +24,7 @@ from hydromodel.datasets.data_preprocess import (
     cross_val_split_tsdata,
 )
 from hydromodel.models.model_config import MODEL_PARAM_DICT
-from hydromodel.trainers.calibrate_sceua import calibrate_by_sceua
+from hydromodel.trainers.calibrate_sceua_gr2m import calibrate_by_sceua
 
 
 def calibrate(args):
@@ -66,7 +66,7 @@ def calibrate(args):
             basin_ids,
             p_and_e,
             qobs,
-            os.path.join(where_save, "sceua_gr4j"),
+            os.path.join(where_save, "sceua_gr2m"),
             warmup,
             model=model_info,
             algorithm=algo_info,
@@ -81,7 +81,7 @@ def calibrate(args):
                 basin_ids,
                 p_and_e_cv,
                 qobs_cv,
-                os.path.join(where_save, f"sceua_gr4j_cv{i+1}"),
+                os.path.join(where_save, f"sceua_gr2m_cv{i+1}"),
                 warmup,
                 model=model_info,
                 algorithm=algo_info,
@@ -108,7 +108,7 @@ def calibrate(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Run hydro-model-gr4j models with the CAMELS dataset"
+        description="Run hydro-model-gr2m models with the CAMELS dataset"
     )
     parser.add_argument(
         "--data_type",
@@ -141,7 +141,7 @@ if __name__ == "__main__":
         "--exp",
         dest="exp",
         help="An exp is corresponding to one data setting",
-        default="expbiliuhe001", # 实验名
+        default="expbiliuhe005", # 实验5
         # default="exp21113800test001",
         # default="expselfmadehydrodataset001",
         type=str,
@@ -157,7 +157,7 @@ if __name__ == "__main__":
         "--warmup",
         dest="warmup",
         help="the number of warmup periods",
-        default=720,
+        default=360, 
         # default=365,
         type=int,
     )
@@ -165,7 +165,7 @@ if __name__ == "__main__":
         "--period",
         dest="period",
         help="The whole period",
-        default=["2014-10-01", "2021-09-30"],
+        default=["2014-01-01", "2022-08-31"],
         # default=["2012-06-10 00:00", "2022-08-31 23:00"],
         # default=["2010-01-01 08:00", "2015-11-02 14:00"],
         nargs="+",
@@ -174,7 +174,7 @@ if __name__ == "__main__":
         "--calibrate_period",
         dest="calibrate_period",
         help="The training period",
-        default=["2014-10-01", "2019-09-30"],
+        default=["2014-01-01", "2018-12-31"],
         # default=["2012-06-10 00:00", "2017-08-31 23:00"],
         # default=["2010-01-01 08:00", "2014-09-14 02:00"],
         nargs="+",
@@ -183,7 +183,7 @@ if __name__ == "__main__":
         "--test_period",
         dest="test_period",
         help="The testing period",
-        default=["2019-10-01", "2021-09-30"],
+        default=["2019-01-01", "2022-08-31"],
         # default=["2017-09-01 00:00", "2022-08-31 23:00"],
         # default=["2014-09-14 08:00", "2015-11-02 14:00"],
         nargs="+",
@@ -209,7 +209,7 @@ if __name__ == "__main__":
         + " source_type is the type of the source data, it can be 'sources' or 'sources5mm'; "
         + " kernel_size is the size of the convolutional kernel; time_interval_hours is the time interval of the input data",
         default={
-            "name": "gr4j",
+            "name": "gr2m",
             "source_type": "sources",
             "source_book": "HF",
             "kernel_size": 15,
